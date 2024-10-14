@@ -12,7 +12,8 @@ class IngredientsSpider(scrapy.spiders.SitemapSpider):
     ]
 
     custom_settings = {
-        "FEED_EXPORT_FIELDS": ["name", "description", "quantity", "unit", "url"],
+        # what will contain the CSV and in what order
+        "FEED_EXPORT_FIELDS": ["name", "description", "food_group", "quantity", "unit", "url"],
         "FEEDS": {f"{name}.csv": {"format": "csv", "overwrite": True}},
         "LOG_LEVEL": "WARNING",
         "LOG_FILE": f"log_{name}.txt",
@@ -22,6 +23,7 @@ class IngredientsSpider(scrapy.spiders.SitemapSpider):
     def parse(self, response):
         name = response.css("h1::text").get().strip()
         description = response.css("h1+p::text").get()
+        food_group = response.css("nav>ol>li:last-child a::text").get().strip()
         url = response.url
         quantity = ""
         tables = response.css("h2+table")
@@ -48,6 +50,7 @@ class IngredientsSpider(scrapy.spiders.SitemapSpider):
         food_item = FoodItem(
             name=name,
             description=description.strip() if description else "",
+            food_group=food_group,
             quantity=quantity,
             unit="",
             url=url
