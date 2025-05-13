@@ -1,0 +1,36 @@
+2025-05-13 15:44:50 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.bb-team.org/hrani> (referer: https://www.bb-team.org/sitemaps/foods)
+Traceback (most recent call last):
+  File "C:\Users\hp\bb-team-info-by-ingredient\.venv\Lib\site-packages\scrapy\utils\defer.py", line 343, in iter_errback
+    yield next(it)
+          ^^^^^^^^
+  File "C:\Users\hp\bb-team-info-by-ingredient\.venv\Lib\site-packages\scrapy\utils\python.py", line 369, in __next__
+    return next(self.data)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\hp\bb-team-info-by-ingredient\.venv\Lib\site-packages\scrapy\utils\python.py", line 369, in __next__
+    return next(self.data)
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\hp\bb-team-info-by-ingredient\.venv\Lib\site-packages\scrapy\core\spidermw.py", line 167, in process_sync
+    yield from iterable
+  File "C:\Users\hp\bb-team-info-by-ingredient\.venv\Lib\site-packages\scrapy\spidermiddlewares\base.py", line 58, in process_spider_output
+    for o in result:
+  File "C:\Users\hp\bb-team-info-by-ingredient\.venv\Lib\site-packages\scrapy\core\spidermw.py", line 167, in process_sync
+    yield from iterable
+  File "C:\Users\hp\bb-team-info-by-ingredient\.venv\Lib\site-packages\scrapy\spidermiddlewares\base.py", line 58, in process_spider_output
+    for o in result:
+  File "C:\Users\hp\bb-team-info-by-ingredient\.venv\Lib\site-packages\scrapy\core\spidermw.py", line 167, in process_sync
+    yield from iterable
+  File "C:\Users\hp\bb-team-info-by-ingredient\.venv\Lib\site-packages\scrapy\spidermiddlewares\base.py", line 58, in process_spider_output
+    for o in result:
+  File "C:\Users\hp\bb-team-info-by-ingredient\.venv\Lib\site-packages\scrapy\core\spidermw.py", line 167, in process_sync
+    yield from iterable
+  File "C:\Users\hp\bb-team-info-by-ingredient\.venv\Lib\site-packages\scrapy\spidermiddlewares\depth.py", line 59, in process_spider_output
+    yield from super().process_spider_output(response, result, spider)
+  File "C:\Users\hp\bb-team-info-by-ingredient\.venv\Lib\site-packages\scrapy\spidermiddlewares\base.py", line 58, in process_spider_output
+    for o in result:
+  File "C:\Users\hp\bb-team-info-by-ingredient\.venv\Lib\site-packages\scrapy\core\spidermw.py", line 167, in process_sync
+    yield from iterable
+  File "C:\Users\hp\bb-team-info-by-ingredient\food\food\spiders\ingredients.py", line 38, in parse
+    if "без глутен" not in description.lower():
+                           ^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'lower'
+2025-05-13 15:46:44 [food.spiders.ingredients] WARNING: Crawling completed in 0:01:59.346496
