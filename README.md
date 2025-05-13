@@ -5,6 +5,3 @@ This version only takes Food name, description, calcium in mg and the url of the
 
 Technologies:
 Python Scrapy framework
-
-Requirements:
-Scrapy, ipython
