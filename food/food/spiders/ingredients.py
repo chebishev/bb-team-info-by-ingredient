@@ -1,6 +1,12 @@
+import logging
+from datetime import datetime
+
 import scrapy
-from food.items import FoodItem
 from scrapy.settings.default_settings import FEED_EXPORT_FIELDS
+
+from food.items import FoodItem
+
+logger = logging.getLogger(__name__)
 
 KEYWORD = "Калций"
 FOOD_GROUPS_TO_EXCLUDE = ["Свински продукти", "Млечни и яйчни продукти"]
@@ -21,6 +27,8 @@ class IngredientsSpider(scrapy.spiders.SitemapSpider):
         "LOG_FILE": f"log_{name}.txt",
         "ITEM_PIPELINES": {"food.pipelines.FoodPipeline": 300},
     }
+
+    start_time = datetime.now()
 
     def parse(self, response):
         name = response.css("h1::text").get().strip()
@@ -64,3 +72,8 @@ class IngredientsSpider(scrapy.spiders.SitemapSpider):
         )
 
         yield food_item
+
+    def closed(self, response):
+        crawl_end = datetime.now()
+        logger.warn(f"Crawling completed in {crawl_end - self.start_time}")
+        
