@@ -81,3 +81,8 @@ Traceback (most recent call last):
                                              ^^^^^^^^^^^^^^^^^
 AttributeError: 'NoneType' object has no attribute 'lower'
 2025-05-13 13:06:32 [food.spiders.ingredients] WARNING: Crawling completed in 0:02:19.856810
+2025-05-13 13:13:20 [py.warnings] WARNING: C:\Users\hp\bb-team-info-by-ingredient\.venv\Lib\site-packages\scrapy\utils\request.py:120: ScrapyDeprecationWarning: 'REQUEST_FINGERPRINTER_IMPLEMENTATION' is a deprecated setting.
+It will be removed in a future version of Scrapy.
+  return cls(crawler)
+
+2025-05-13 13:15:58 [food.spiders.ingredients] WARNING: Crawling completed in 0:02:38.233087
