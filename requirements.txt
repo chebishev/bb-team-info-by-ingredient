@@ -28,6 +28,7 @@ parsel==1.10.0
 parso==0.8.4
 prompt_toolkit==3.0.51
 Protego==0.4.0
+psycopg2==2.9.10
 pure_eval==0.2.3
 pyasn1==0.6.1
 pyasn1_modules==0.4.2
