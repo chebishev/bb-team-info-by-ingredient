@@ -1,6 +1,6 @@
 from itemadapter import ItemAdapter
 import openpyxl
-from .nutrient_headers import NUTRIENT_HEADERS
+
 
 class FoodPipeline:
     def process_item(self, item, spider):
@@ -31,7 +31,7 @@ class FoodPipeline:
 
             # Store cleaned nutrient info
             processed_nutrients.append({
-                "name": f'{nutrient.get("name", "").strip()} {unit}',
+                "name": f'{nutrient.get("name", "").strip()} ({unit})',
                 "quantity": quantity,
                 # "group": nutrient.get("group", "").strip()
             })
@@ -42,30 +42,45 @@ class FoodPipeline:
 
 
 class XSLXPipeline:
-    def open_spider(self, spider):
+    def __init__(self):
         self.wb = openpyxl.Workbook()
-        self.ws = self.wb.active
-        self.ws.title = "Храни"
+        self.sheet = self.wb.active
 
-        # Create the header
-        self.headers = ["Име", "Описание", "Хранителна група"] + list(NUTRIENT_HEADERS.values())
-        self.ws.append(self.headers)
+        # Predefined column headers (nutrients with units!)
+        self.headers = [
+            "Име", "Описание", "Хранителна група",
+            "Фибри (г)", "Нишесте (г)", "Захари (г)", "Галактоза (г)", "Глюкоза (г)", "Захароза (г)", "Лактоза (г)", "Малтоза (г)", "Фруктоза (г)",
+            "Бетаин (мг)", "Витамин A (IU)", "Витамин B1 (Тиамин) (мг)", "Витамин B2 (Рибофлавин) (мг)", "Витамин B3 (Ниацин) (мг)",
+            "Витамин B4 (Холин) (мг)", "Витамин B5 (Пантотенова киселина) (мг)", "Витамин B6 (Пиридоксин) (мг)", "Витамин B9 (Фолиева киселина) (мкг)",
+            "Витамин B12 (Кобалкамин) (мкг)", "Витамин C (мг)", "Витамин D (мкг)", "Витамин E (мг)", "Витамин K1 (мкг)", "Витамин K2 (MK04) (мкг)",
+            "Аланин (г)", "Аргинин (г)", "Аспарагинова киселина (г)", "Валин (г)", "Глицин (г)", "Глутамин (г)", "Изолевцин (г)", "Левцин (г)",
+            "Лизин (г)", "Метионин (г)", "Пролин (г)", "Серин (г)", "Тирозин (г)", "Треонин (г)", "Триптофан (г)", "Фенилаланин (г)", "Хидроксипролин (г)",
+            "Хистидин (г)", "Цистин (г)", "Мазнини (г)", "Мононенаситени мазнини (г)", "Полиненаситени мазнини (г)", "Наситени мазнини (г)",
+            "Трансмазнини (г)", "Желязо (мг)", "Калий (мг)", "Калций (мг)", "Манезий (мг)", "Манан (г)", "Мед (мг)", "Натрий (мг)", "Селен (мкг)",
+            "Флуорид (мг)", "Фосфор (мг)", "Цинк (мг)", "Холестерол (мг)", "Фитостероли (мг)", "Стимастероли (мг)", "Кампестероли (мг)",
+            "Бета-ситостероли (мг)", "Алкохол (г)", "Вода (г)", "Кофеин (мг)", "Теобромин (мг)", "Пепел (г)"
+        ]
+
+        self.sheet.append(self.headers)
 
     def process_item(self, item, spider):
-        nutrient_map = {nutrient["name"]: nutrient["quantity"] for nutrient in item.get("nutrients", [])}
+        # Build a lookup dict for nutrients
+        nutrient_map = {n["name"]: n["quantity"] for n in item.get("nutrients", [])}
 
+        # Start with basic info
         row = [
             item.get("name", ""),
             item.get("description", ""),
-            item.get("food_group", "")
+            item.get("food_group", ""),
         ]
 
-        # Append each nutrient in order of headers
-        for name in NUTRIENT_HEADERS:
-            row.append(nutrient_map.get(name))  # May be None
+        # Fill each nutrient value in the correct column
+        for header in self.headers[3:]:  # skip first 3
+            row.append(nutrient_map.get(header, ""))
 
-        self.ws.append(row)
+        self.sheet.append(row)
         return item
 
     def close_spider(self, spider):
-        self.wb.save("output.xlsx")
+        self.wb.save("foods.xlsx")
+        

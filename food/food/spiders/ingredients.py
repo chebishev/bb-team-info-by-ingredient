@@ -18,7 +18,7 @@ class IngredientsSpider(SitemapSpider):
     custom_settings = {
         "ITEM_PIPELINES": 
         {"food.pipelines.FoodPipeline": 100,
-        "fodd.pipelines.XSLXPipeline": 200},
+        "food.pipelines.XSLXPipeline": 200},
         "LOG_LEVEL": "WARNING",
         "FEEDS": {
             f"{name}.csv": {"format": "csv", "overwrite": True}
