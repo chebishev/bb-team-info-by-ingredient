@@ -16,7 +16,9 @@ class IngredientsSpider(SitemapSpider):
     ]
 
     custom_settings = {
-        # "ITEM_PIPELINES": {"food.pipelines.FoodPipeline": 300},
+        "ITEM_PIPELINES": 
+        {"food.pipelines.FoodPipeline": 100,
+        "fodd.pipelines.XSLXPipeline": 200},
         "LOG_LEVEL": "WARNING",
         "FEEDS": {
             f"{name}.csv": {"format": "csv", "overwrite": True}
@@ -43,7 +45,7 @@ class IngredientsSpider(SitemapSpider):
         nutrients = []
 
         for table in tables:
-            summary = table.attrib.get("summary", "").strip()
+            # summary = table.attrib.get("summary", "").strip()
             for row in table.css("tr"):
                 nutrient_name = row.css("a::text").get()
                 quantity_text = row.css("td::text").get()
@@ -55,7 +57,7 @@ class IngredientsSpider(SitemapSpider):
                     continue
 
                 nutrients.append({
-                    "group": summary,  # Optional: use this if you want to group
+                    # "group": summary,  # Optional: use this if you want to group
                     "name": nutrient_name.strip(),
                     "raw_quantity": quantity_text.strip()
                 })
