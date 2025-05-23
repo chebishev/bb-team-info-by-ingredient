@@ -1,2 +1,0 @@
-# for postgreSQL localhost
-DATABASE_URL=postgresql://dbuser:dbpassword@localhost:5432/dbname
