@@ -14,21 +14,28 @@ class HundredGramsSpider(SitemapSpider):
         "FEEDS": {
             f"{name}.csv": {"format": "csv", "overwrite": True}
         },
-        "FEED_EXPORT_FIELDS": ["Serving Size", "nutritions"],
+        "FEED_EXPORT_FIELDS": ["calories", "protein", "carbohydrates", "fats"],
         "LOG_FILE": f"log_{name}.txt"
     }
 
     def parse(self, response):
         if response.url == "https://www.bb-team.org/hrani":
-            logger.info("Skipping the main food page.")
             return
-        
-        serving_size = "100 грама съдържат:"
-        nutritions = response.css("p.font-semibold+div")
-        nutritions_string = " ".join(n.strip() for n in nutritions.css("div span::text").getall()).replace("г", "")
-        nutritions_list = " ".join(nutritions_string.split()).split()
 
+        nutritions = response.css("p.font-semibold+div > div")
+
+        parsed = []
+        for block in nutritions:
+            # Try to extract the number from the span text
+            number = block.css("span::text").re_first(r"[\d.,]+")
+            if number:
+                parsed.append(number)
+            elif "Няма данни" in block.get():
+                parsed.append("")  # Use empty string for missing data
+        
         yield {
-            "Serving Size": serving_size,
-            "nutritions": f"{nutritions_list} -> {len(nutritions_list)} елемента",
+            "calories": parsed[0],
+            "protein": parsed[1],
+            "carbohydrates": parsed[2],
+            "fats": parsed[3],
         }
