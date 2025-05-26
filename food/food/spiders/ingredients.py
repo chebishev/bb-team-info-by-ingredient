@@ -36,12 +36,27 @@ class IngredientsSpider(SitemapSpider):
         name = response.css("h1::text").get().strip()
         description = response.css("h1+p::text").get().strip()     
         food_group = response.css("nav > ol > li:last-child a::text").get().strip()
+        nutritions_per_100_grams = response.css("p.font-semibold+div > div")
+        serving_size = "100 г съдържат:"
+        parsed_nutritions = []
+        for block in nutritions_per_100_grams:
+            number = block.css("span::text").re_first(r"[\d.,]+")
+            if number:
+                parsed_nutritions.append(number)
+            elif "Няма данни" in block.get():
+                parsed_nutritions.append("")
 
         tables = response.css("h2+table")
         if not tables:
             return
 
-        nutrients = []
+        nutrients = [{
+            "group": serving_size,
+            "calories": parsed_nutritions[0],
+            "protein": parsed_nutritions[1],
+            "carbohydrates": parsed_nutritions[2],
+            "fats": parsed_nutritions[3]
+            }]
 
         for table in tables:
             summary = table.attrib.get("summary", "").strip()
