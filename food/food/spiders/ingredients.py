@@ -1,7 +1,6 @@
 import logging
 from datetime import datetime
 
-import scrapy
 from scrapy.spiders import SitemapSpider
 
 from food.items import FoodItem
