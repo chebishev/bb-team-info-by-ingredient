@@ -22,7 +22,7 @@ class IngredientsSpider(SitemapSpider):
         "FEEDS": {
             f"{name}.csv": {"format": "csv", "overwrite": True}
         },
-        "FEED_EXPORT_FIELDS": ["name", "description", "food_group", "nutrients", "url"],
+        "FEED_EXPORT_FIELDS": ["name", "description", "food_group", "hundred_grams_summary", "nutrients", "url"],
         "LOG_FILE": f"log_{name}.txt"
     }
 
@@ -50,7 +50,7 @@ class IngredientsSpider(SitemapSpider):
         if not tables:
             return
 
-        nutrients = [{
+        hundred_grams_summary = [{
             "group": serving_size,
             "calories": parsed_nutritions[0],
             "protein": parsed_nutritions[1],
@@ -58,6 +58,7 @@ class IngredientsSpider(SitemapSpider):
             "fats": parsed_nutritions[3]
             }]
 
+        nutrients = []
         for table in tables:
             summary = table.attrib.get("summary", "").strip()
             for row in table.css("tr"):
@@ -80,10 +81,11 @@ class IngredientsSpider(SitemapSpider):
             name=name,
             description=description,
             food_group=food_group.strip(),
-            nutrients=nutrients,  # now a list of dicts
+            hundred_grams_summary=hundred_grams_summary,
+            nutrients=nutrients
             url=url,
         )
-
+        print(nutrients)
         yield food_item
 
     def closed(self, reason):
