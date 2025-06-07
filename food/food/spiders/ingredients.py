@@ -82,10 +82,10 @@ class IngredientsSpider(SitemapSpider):
             description=description,
             food_group=food_group.strip(),
             hundred_grams_summary=hundred_grams_summary,
-            nutrients=nutrients
+            nutrients=nutrients,
             url=url,
         )
-        print(nutrients)
+
         yield food_item
 
     def closed(self, reason):

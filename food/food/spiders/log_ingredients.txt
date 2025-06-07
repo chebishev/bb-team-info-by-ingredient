@@ -8,3 +8,4 @@
 2025-06-07 09:17:21 [ingredients] WARNING: Failed to convert quantity: 1.714.50 in https://www.bb-team.org/hrani/id/437201_bosilek-izsushen (Витамин K1)
 2025-06-07 09:18:56 [food.spiders.ingredients] WARNING: Crawling completed in 0:04:57.165500
 2025-06-07 09:41:16 [food.spiders.ingredients] WARNING: Crawling completed in 0:04:21.136537
+2025-06-07 09:59:09 [food.spiders.ingredients] WARNING: Crawling completed in 0:03:30.921303
