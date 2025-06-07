@@ -14,7 +14,7 @@ class FoodPipeline:
             if not quantity_parts:
                 continue  # Skip empty or invalid
 
-            numeric = quantity_parts[0].replace(",", ".").strip()
+            numeric = quantity_parts[0].replace(",", "").strip()
             if len(quantity_parts) > 1:
                 unit = quantity_parts[1]  
             else:
