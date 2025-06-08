@@ -81,6 +81,23 @@ class XSLXPipeline:
         self.sheet.append(row)
         return item
 
-    def close_spider(self, spider):
-        self.wb.save("foods.xlsx")
+				def close_spider(self, spider):
+    # Freeze the first row (header row)
+    self.sheet.freeze_panes = "A2"  # Everything above A2 (i.e., row 1) stays frozen
+
+    # Auto-size all columns based on their content
+    for column_cells in self.sheet.columns:
+        max_length = 0
+        column_letter = column_cells[0].column_letter
+        for cell in column_cells:
+            try:
+                if cell.value:
+                    max_length = max(max_length, len(str(cell.value)))
+            except:
+                pass
+        adjusted_width = max_length + 2  # Add a little padding
+        self.sheet.column_dimensions[column_letter].width = adjusted_width
+
+    # Save the workbook
+    self.wb.save("foods.xlsx")
         
