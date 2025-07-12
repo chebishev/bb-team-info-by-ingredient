@@ -48,7 +48,7 @@ class XSLXPipeline:
 
         # Predefined column headers (nutrients with units!)
         self.headers = [
-            "Име", "Описание", "Хранителна група",
+            "Име", "Описание", "Хранителна група", "Калории", "Протеини", "Въглехидрати", "Мазнини",
             "Фибри (г)", "Нишесте (г)", "Захари (г)", "Галактоза (г)", "Глюкоза (г)", "Захароза (г)", "Лактоза (г)", "Малтоза (г)", "Фруктоза (г)",
             "Бетаин (мг)", "Витамин A (IU)", "Витамин B1 (Тиамин) (мг)", "Витамин B2 (Рибофлавин) (мг)", "Витамин B3 (Ниацин) (мг)",
             "Витамин B4 (Холин) (мг)", "Витамин B5 (Пантотенова киселина) (мг)", "Витамин B6 (Пиридоксин) (мг)", "Витамин B9 (Фолиева киселина) (мкг)",
@@ -65,6 +65,7 @@ class XSLXPipeline:
 
     def process_item(self, item, spider):
         # Build a lookup dict for nutrients
+        hundred_grams_map = {n["name"]: n["quantity"] for n in item.get("hundred_grams_summary", [])}
         nutrient_map = {n["name"]: n["quantity"] for n in item.get("nutrients", [])}
 
         # Start with basic info
@@ -76,6 +77,7 @@ class XSLXPipeline:
 
         # Fill each nutrient value in the correct column
         for header in self.headers[3:]:  # skip first 3
+            row.append(hundred_grams_map.get(header, ""))
             row.append(nutrient_map.get(header, ""))
 
         self.sheet.append(row)
