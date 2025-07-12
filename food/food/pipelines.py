@@ -81,7 +81,7 @@ class XSLXPipeline:
         self.sheet.append(row)
         return item
 
-				def close_spider(self, spider):
+def close_spider(self, spider):
     # Freeze the first row (header row)
     self.sheet.freeze_panes = "A2"  # Everything above A2 (i.e., row 1) stays frozen
 
