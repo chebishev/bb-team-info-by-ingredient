@@ -40,9 +40,7 @@ Scrapy – for web scraping
 openpyxl – for writing Excel files
 
 📂 Project Structure
-markdown
-Copy
-Edit
+```bash
 nutrition_scraper/
 ├── scrapy.cfg
 └── foods/
@@ -53,6 +51,7 @@ nutrition_scraper/
    └── spiders/       
         └── ingredients.py
         └── foods.xlsx
+```
 
 
 📌 Notes
