@@ -5,6 +5,7 @@ from openpyxl.styles import Alignment
 class FoodPipeline:
     def process_item(self, item, spider):
         nutrients = item.get("nutrients", [])
+        print(nutrients)
         processed_nutrients = []
 
         for nutrient in nutrients:
@@ -37,7 +38,8 @@ class FoodPipeline:
                     # "group": nutrient.get("group", "").strip()
                 }
             )
-
+        print("*" * 50)
+        print(processed_nutrients)
         item["nutrients"] = processed_nutrients
 
         return item
@@ -53,9 +55,9 @@ class XSLXPipeline:
             "Описание",
             "Хранителна група",
             "Калории",
-            "Протеини",
-            "Въглехидрати",
-            "Мазнини",
+            "Протеини (г)",
+            "Въглехидрати (г)",
+            "Мазнини (г)",
             "Фибри (г)",
             "Нишесте (г)",
             "Захари (г)",
@@ -166,11 +168,20 @@ class XSLXPipeline:
 
     def close_spider(self, spider):
         self.sheet.freeze_panes = "A3"
+
         for column_cells in self.sheet.columns:
-            max_length = 0
-            column_letter = column_cells[0].column_letter
+            # Skip merged cells and find a real cell to get the column letter
             for cell in column_cells:
-                if cell.value:
-                    max_length = max(max_length, len(str(cell.value)))
+                if not isinstance(cell, openpyxl.cell.cell.MergedCell):
+                    column_letter = cell.column_letter
+                    break
+            else:
+                continue  # all cells in this column are merged, skip
+
+            max_length = max(
+                (len(str(cell.value)) for cell in column_cells if cell.value),
+                default=0
+            )
             self.sheet.column_dimensions[column_letter].width = max_length + 2
+
         self.wb.save("foods.xlsx")

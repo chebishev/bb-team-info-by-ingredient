@@ -28,7 +28,7 @@ class IngredientsSpider(SitemapSpider):
 
     def parse(self, response):
         url = response.url
-        if url == "https://www.bb-team.org/hrani":
+        if url == "https://www.bb-team.org/hrani" or url != "https://www.bb-team.org/hrani/id/370991_pat-kam-zdrave-snaks-tsarevichen-s-kinoa-i-paprika":
             return
 
         name = response.css("h1::text").get().strip()
