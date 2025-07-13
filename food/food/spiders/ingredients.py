@@ -28,7 +28,11 @@ class IngredientsSpider(SitemapSpider):
 
     def parse(self, response):
         url = response.url
-        if url == "https://www.bb-team.org/hrani" or url != "https://www.bb-team.org/hrani/id/370991_pat-kam-zdrave-snaks-tsarevichen-s-kinoa-i-paprika":
+        if (
+            url == "https://www.bb-team.org/hrani"
+            or url
+            != "https://www.bb-team.org/hrani/id/370991_pat-kam-zdrave-snaks-tsarevichen-s-kinoa-i-paprika"
+        ):
             return
 
         name = response.css("h1::text").get().strip()
@@ -36,6 +40,7 @@ class IngredientsSpider(SitemapSpider):
         food_group = response.css("nav > ol > li:last-child a::text").get().strip()
         nutritions_per_100_grams = response.css("p.font-semibold+div > div")
         serving_size = "100 г съдържат:"
+        hundred_grams_nutrients = ("calories", "protein", "carbohydrates", "fats")
         parsed_nutritions = []
         for block in nutritions_per_100_grams:
             number = block.css("span::text").re_first(r"[\d.,]+")
@@ -48,17 +53,16 @@ class IngredientsSpider(SitemapSpider):
         if not tables:
             return
 
-        hundred_grams_summary = [
-            {
-                "group": serving_size,
-                "calories": parsed_nutritions[0],
-                "protein": parsed_nutritions[1],
-                "carbohydrates": parsed_nutritions[2],
-                "fats": parsed_nutritions[3],
-            }
-        ]
+        nutrients = []
+        for index, nutrition in enumerate(parsed_nutritions):
+            nutrients.append(
+                {
+                    "group": serving_size,
+                    "name": hundred_grams_nutrients[index],
+                    "raw_quantity": nutrition + " к" if index == 0 else f"{nutrition} г",
+                }
+            )
 
-        nutrients = hundred_grams_summary
         for table in tables:
             summary = table.attrib.get("summary", "").strip()
             for row in table.css("tr"):
@@ -77,8 +81,7 @@ class IngredientsSpider(SitemapSpider):
                         "name": nutrient_name.strip(),
                         "raw_quantity": quantity_text.strip(),
                     }
-                )
-
+                )  
         food_item = FoodItem(
             name=name,
             description=description,

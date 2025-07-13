@@ -54,7 +54,7 @@ class XSLXPipeline:
             "Име",
             "Описание",
             "Хранителна група",
-            "Калории",
+            "Калории (к)",
             "Протеини (г)",
             "Въглехидрати (г)",
             "Мазнини (г)",
@@ -179,8 +179,7 @@ class XSLXPipeline:
                 continue  # all cells in this column are merged, skip
 
             max_length = max(
-                (len(str(cell.value)) for cell in column_cells if cell.value),
-                default=0
+                (len(str(cell.value)) for cell in column_cells if cell.value), default=0
             )
             self.sheet.column_dimensions[column_letter].width = max_length + 2
 

@@ -1,4 +1,8 @@
 ingredients = {
+    "calories": "Калории",
+    "protein": "Протеин",
+    "carbohydrates": "Въглехидрати",
+    "fats": "Мазнини",
     "fiber": "Фибри",
     "starch": "Нишесте",
     "sugars": "Захари",
