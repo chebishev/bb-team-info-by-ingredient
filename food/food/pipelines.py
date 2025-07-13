@@ -1,5 +1,5 @@
-from itemadapter import ItemAdapter
 import openpyxl
+from openpyxl.styles import Alignment
 
 
 class FoodPipeline:
@@ -46,7 +46,6 @@ class XSLXPipeline:
         self.wb = openpyxl.Workbook()
         self.sheet = self.wb.active
 
-        # Predefined column headers (nutrients with units!)
         self.headers = [
             "Име", "Описание", "Хранителна група", "Калории", "Протеини", "Въглехидрати", "Мазнини",
             "Фибри (г)", "Нишесте (г)", "Захари (г)", "Галактоза (г)", "Глюкоза (г)", "Захароза (г)", "Лактоза (г)", "Малтоза (г)", "Фруктоза (г)",
@@ -61,45 +60,48 @@ class XSLXPipeline:
             "Бета-ситостероли (мг)", "Алкохол (г)", "Вода (г)", "Кофеин (мг)", "Теобромин (мг)", "Пепел (г)"
         ]
 
+        # Insert an empty row for category headers
+        self.sheet.append([""] * len(self.headers))
         self.sheet.append(self.headers)
 
-    def process_item(self, item, spider):
-        # Build a lookup dict for nutrients
-        hundred_grams_map = {n["name"]: n["quantity"] for n in item.get("hundred_grams_summary", [])}
-        nutrient_map = {n["name"]: n["quantity"] for n in item.get("nutrients", [])}
+        # Define column category groupings (1-based index)
+        category_ranges = {
+            "100 грама съдържат": (4, 7),
+            "Въглехидрати": (8, 16),
+            "Витамини": (17, 31),
+            "Аминокиселини": (32, 50),
+            "Мазнини": (51, 55),
+            "Минерали": (56, 66),
+            "Стероли": (67, 71),
+            "Други": (72, 76)
+        }
 
-        # Start with basic info
+        # Merge cells and assign group names
+        for category, (start, end) in category_ranges.items():
+            self.sheet.merge_cells(start_row=1, start_column=start, end_row=1, end_column=end)
+            cell = self.sheet.cell(row=1, column=start)
+            cell.value = category
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+
+    def process_item(self, item, spider):
+        nutrient_map = {n["name"]: n["quantity"] for n in item.get("nutrients", [])}
         row = [
             item.get("name", ""),
             item.get("description", ""),
-            item.get("food_group", ""),
+            item.get("food_group", "")
         ]
-
-        # Fill each nutrient value in the correct column
-        for header in self.headers[3:]:  # skip first 3
-            row.append(hundred_grams_map.get(header, ""))
+        for header in self.headers[3:]:
             row.append(nutrient_map.get(header, ""))
-
         self.sheet.append(row)
         return item
 
-def close_spider(self, spider):
-    # Freeze the first row (header row)
-    self.sheet.freeze_panes = "A2"  # Everything above A2 (i.e., row 1) stays frozen
-
-    # Auto-size all columns based on their content
-    for column_cells in self.sheet.columns:
-        max_length = 0
-        column_letter = column_cells[0].column_letter
-        for cell in column_cells:
-            try:
+    def close_spider(self, spider):
+        self.sheet.freeze_panes = "A3"
+        for column_cells in self.sheet.columns:
+            max_length = 0
+            column_letter = column_cells[0].column_letter
+            for cell in column_cells:
                 if cell.value:
                     max_length = max(max_length, len(str(cell.value)))
-            except:
-                pass
-        adjusted_width = max_length + 2  # Add a little padding
-        self.sheet.column_dimensions[column_letter].width = adjusted_width
-
-    # Save the workbook
-    self.wb.save("foods.xlsx")
-        
+            self.sheet.column_dimensions[column_letter].width = max_length + 2
+        self.wb.save("foods.xlsx")

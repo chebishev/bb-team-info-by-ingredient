@@ -4,7 +4,6 @@ from datetime import datetime
 from scrapy.spiders import SitemapSpider
 
 from food.items import FoodItem
-from food.utils import ingredients
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +21,7 @@ class IngredientsSpider(SitemapSpider):
         "FEEDS": {
             f"{name}.csv": {"format": "csv", "overwrite": True}
         },
-        "FEED_EXPORT_FIELDS": ["name", "description", "food_group", "hundred_grams_summary", "nutrients", "url"],
+        "FEED_EXPORT_FIELDS": ["name", "description", "food_group", "nutrients", "url"],
         "LOG_FILE": f"log_{name}.txt"
     }
 
@@ -58,7 +57,7 @@ class IngredientsSpider(SitemapSpider):
             "fats": parsed_nutritions[3]
             }]
 
-        nutrients = []
+        nutrients = hundred_grams_summary
         for table in tables:
             summary = table.attrib.get("summary", "").strip()
             for row in table.css("tr"):
@@ -81,7 +80,6 @@ class IngredientsSpider(SitemapSpider):
             name=name,
             description=description,
             food_group=food_group.strip(),
-            hundred_grams_summary=hundred_grams_summary,
             nutrients=nutrients,
             url=url,
         )
