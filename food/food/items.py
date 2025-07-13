@@ -1,5 +1,6 @@
 import scrapy
 
+
 class FoodItem(scrapy.Item):
     name = scrapy.Field()
     description = scrapy.Field()

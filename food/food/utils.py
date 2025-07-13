@@ -67,5 +67,5 @@ ingredients = {
     "water": "Вода",
     "caffeine": "Кофеин",
     "theobromine": "Теобромин",
-    "ash": "Пепел"
+    "ash": "Пепел",
 }

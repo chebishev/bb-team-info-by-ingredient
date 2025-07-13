@@ -1,11 +1,11 @@
 import logging
 from datetime import datetime
 
+from food.items import FoodItem
 from scrapy.spiders import SitemapSpider
 
-from food.items import FoodItem
-
 logger = logging.getLogger(__name__)
+
 
 class IngredientsSpider(SitemapSpider):
     name = "ingredients"
@@ -14,15 +14,14 @@ class IngredientsSpider(SitemapSpider):
     ]
 
     custom_settings = {
-        "ITEM_PIPELINES": 
-        {"food.pipelines.FoodPipeline": 100,
-        "food.pipelines.XSLXPipeline": 200},
-        "LOG_LEVEL": "WARNING",
-        "FEEDS": {
-            f"{name}.csv": {"format": "csv", "overwrite": True}
+        "ITEM_PIPELINES": {
+            "food.pipelines.FoodPipeline": 100,
+            "food.pipelines.XSLXPipeline": 200,
         },
+        "LOG_LEVEL": "WARNING",
+        "FEEDS": {f"{name}.csv": {"format": "csv", "overwrite": True}},
         "FEED_EXPORT_FIELDS": ["name", "description", "food_group", "nutrients", "url"],
-        "LOG_FILE": f"log_{name}.txt"
+        "LOG_FILE": f"log_{name}.txt",
     }
 
     start_time = datetime.now()
@@ -33,7 +32,7 @@ class IngredientsSpider(SitemapSpider):
             return
 
         name = response.css("h1::text").get().strip()
-        description = response.css("h1+p::text").get().strip()     
+        description = response.css("h1+p::text").get().strip()
         food_group = response.css("nav > ol > li:last-child a::text").get().strip()
         nutritions_per_100_grams = response.css("p.font-semibold+div > div")
         serving_size = "100 г съдържат:"
@@ -49,13 +48,15 @@ class IngredientsSpider(SitemapSpider):
         if not tables:
             return
 
-        hundred_grams_summary = [{
-            "group": serving_size,
-            "calories": parsed_nutritions[0],
-            "protein": parsed_nutritions[1],
-            "carbohydrates": parsed_nutritions[2],
-            "fats": parsed_nutritions[3]
-            }]
+        hundred_grams_summary = [
+            {
+                "group": serving_size,
+                "calories": parsed_nutritions[0],
+                "protein": parsed_nutritions[1],
+                "carbohydrates": parsed_nutritions[2],
+                "fats": parsed_nutritions[3],
+            }
+        ]
 
         nutrients = hundred_grams_summary
         for table in tables:
@@ -70,11 +71,13 @@ class IngredientsSpider(SitemapSpider):
                 if "няма данни" in quantity_text.lower():
                     continue
 
-                nutrients.append({
-                    "group": summary,  # Optional: use this if you want to group
-                    "name": nutrient_name.strip(),
-                    "raw_quantity": quantity_text.strip()
-                })
+                nutrients.append(
+                    {
+                        "group": summary,  # Optional: use this if you want to group
+                        "name": nutrient_name.strip(),
+                        "raw_quantity": quantity_text.strip(),
+                    }
+                )
 
         food_item = FoodItem(
             name=name,
