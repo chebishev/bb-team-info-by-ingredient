@@ -5,7 +5,6 @@ from openpyxl.styles import Alignment
 class FoodPipeline:
     def process_item(self, item, spider):
         nutrients = item.get("nutrients", [])
-        print(nutrients)
         processed_nutrients = []
 
         for nutrient in nutrients:
@@ -38,8 +37,7 @@ class FoodPipeline:
                     # "group": nutrient.get("group", "").strip()
                 }
             )
-        print("*" * 50)
-        print(processed_nutrients)
+
         item["nutrients"] = processed_nutrients
 
         return item
