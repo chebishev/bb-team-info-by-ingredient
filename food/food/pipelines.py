@@ -1,5 +1,5 @@
 import openpyxl
-from openpyxl.styles import Alignment
+from openpyxl.styles import Alignment, Font
 
 
 class FoodPipeline:
@@ -53,7 +53,7 @@ class XSLXPipeline:
             "Описание",
             "Хранителна група",
             "Калории (к)",
-            "Протеини (г)",
+            "Протеин (г)",
             "Въглехидрати (г)",
             "Мазнини (г)",
             "Фибри (г)",
@@ -132,7 +132,7 @@ class XSLXPipeline:
         self.sheet.append(self.headers)
 
         # Define column category groupings (1-based index)
-        category_ranges = {
+        self.category_ranges = {
             "100 грама съдържат": (4, 7),
             "Въглехидрати": (8, 16),
             "Витамини": (17, 31),
@@ -144,12 +144,13 @@ class XSLXPipeline:
         }
 
         # Merge cells and assign group names
-        for category, (start, end) in category_ranges.items():
+        for category, (start, end) in self.category_ranges.items():
             self.sheet.merge_cells(
                 start_row=1, start_column=start, end_row=1, end_column=end
             )
             cell = self.sheet.cell(row=1, column=start)
             cell.value = category
+            cell.font = Font(bold=True)
             cell.alignment = Alignment(horizontal="center", vertical="center")
 
     def process_item(self, item, spider):
@@ -163,6 +164,15 @@ class XSLXPipeline:
             row.append(nutrient_map.get(header, ""))
         self.sheet.append(row)
         return item
+
+    @staticmethod
+    def index_to_column_letter(index):
+        result = ""
+        while index > 0:
+            index, remainder = divmod(index - 1, 26)
+            result = chr(65 + remainder) + result
+        return result
+
 
     def close_spider(self, spider):
         self.sheet.freeze_panes = "A3"
@@ -180,5 +190,12 @@ class XSLXPipeline:
                 (len(str(cell.value)) for cell in column_cells if cell.value), default=0
             )
             self.sheet.column_dimensions[column_letter].width = max_length + 2
+        
+        for start_column, end_column in self.category_ranges.values():
+            for col_index in range(start_column, end_column + 1):
+                col_letter = self.index_to_column_letter(col_index)
+                dim = self.sheet.column_dimensions[col_letter]
+                dim.outline_level = 1
+                dim.hidden = False  #
 
         self.wb.save("foods.xlsx")

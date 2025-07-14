@@ -40,7 +40,7 @@ class IngredientsSpider(SitemapSpider):
         food_group = response.css("nav > ol > li:last-child a::text").get().strip()
         nutritions_per_100_grams = response.css("p.font-semibold+div > div")
         serving_size = "100 г съдържат:"
-        hundred_grams_nutrients = ("calories", "protein", "carbohydrates", "fats")
+        hundred_grams_nutrients = ("Калории", "Протеин", "Въглехидрати", "Мазнини")
         parsed_nutritions = []
         for block in nutritions_per_100_grams:
             number = block.css("span::text").re_first(r"[\d.,]+")
@@ -59,7 +59,7 @@ class IngredientsSpider(SitemapSpider):
                 {
                     "group": serving_size,
                     "name": hundred_grams_nutrients[index],
-                    "raw_quantity": nutrition + " к" if index == 0 else f"{nutrition} г",
+                    "raw_quantity": f"{nutrition} к" if index == 0 else f"{nutrition} г",
                 }
             )
 
