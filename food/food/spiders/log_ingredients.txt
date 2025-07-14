@@ -1,0 +1,1 @@
+2025-07-14 20:07:34 [food.spiders.ingredients] WARNING: Crawling completed in 0:03:06.740549
