@@ -59,7 +59,9 @@ class IngredientsSpider(SitemapSpider):
                 {
                     "group": serving_size,
                     "name": hundred_grams_nutrients[index],
-                    "raw_quantity": f"{nutrition} к" if index == 0 else f"{nutrition} г",
+                    "raw_quantity": (
+                        f"{nutrition} к" if index == 0 else f"{nutrition} г"
+                    ),
                 }
             )
 
@@ -81,7 +83,7 @@ class IngredientsSpider(SitemapSpider):
                         "name": nutrient_name.strip(),
                         "raw_quantity": quantity_text.strip(),
                     }
-                )  
+                )
         food_item = FoodItem(
             name=name,
             description=description,

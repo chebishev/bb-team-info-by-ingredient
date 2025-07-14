@@ -173,7 +173,6 @@ class XSLXPipeline:
             result = chr(65 + remainder) + result
         return result
 
-
     def close_spider(self, spider):
         self.sheet.freeze_panes = "A3"
 
@@ -194,5 +193,7 @@ class XSLXPipeline:
         for start_column, end_column in self.category_ranges.values():
             start_letter = self.index_to_column_letter(start_column)
             end_letter = self.index_to_column_letter(end_column - 1)
-            self.sheet.column_dimensions.group(start_letter, end_letter, outline_level=1, hidden=False)
+            self.sheet.column_dimensions.group(
+                start_letter, end_letter, outline_level=1, hidden=False
+            )
         self.wb.save("foods.xlsx")
