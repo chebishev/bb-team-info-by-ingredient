@@ -190,12 +190,9 @@ class XSLXPipeline:
                 (len(str(cell.value)) for cell in column_cells if cell.value), default=0
             )
             self.sheet.column_dimensions[column_letter].width = max_length + 2
-        
-        for start_column, end_column in self.category_ranges.values():
-            for col_index in range(start_column, end_column + 1):
-                col_letter = self.index_to_column_letter(col_index)
-                dim = self.sheet.column_dimensions[col_letter]
-                dim.outline_level = 1
-                dim.hidden = False  #
 
+        for start_column, end_column in self.category_ranges.values():
+            start_letter = self.index_to_column_letter(start_column)
+            end_letter = self.index_to_column_letter(end_column - 1)
+            self.sheet.column_dimensions.group(start_letter, end_letter, outline_level=1, hidden=False)
         self.wb.save("foods.xlsx")

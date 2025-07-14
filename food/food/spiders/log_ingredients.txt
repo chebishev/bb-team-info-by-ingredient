@@ -77,3 +77,43 @@ NameError: name 'Font' is not defined
 2025-07-14 11:26:20 [food.spiders.ingredients] WARNING: Crawling completed in 0:01:01.221685
 2025-07-14 13:23:42 [food.spiders.ingredients] WARNING: Crawling completed in 0:01:00.595987
 2025-07-14 13:31:49 [food.spiders.ingredients] WARNING: Crawling completed in 0:01:05.210250
+2025-07-14 19:36:16 [food.spiders.ingredients] WARNING: Crawling completed in 0:02:38.838538
+2025-07-14 19:44:17 [scrapy.core.engine] ERROR: Scraper close failure
+Traceback (most recent call last):
+  File "C:\Users\lenovo\bb-team-info-by-ingredient\.venv\Lib\site-packages\twisted\internet\defer.py", line 1088, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\bb-team-info-by-ingredient\food\food\pipelines.py", line 202, in close_spider
+    self.sheet.calculate_dimensions.group(start_letter, end_letter, outline_level=1, hidden=False)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Worksheet' object has no attribute 'calculate_dimensions'. Did you mean: 'calculate_dimension'?
+2025-07-14 19:44:17 [food.spiders.ingredients] WARNING: Crawling completed in 0:04:38.776558
+2025-07-14 19:50:16 [scrapy.core.engine] ERROR: Scraper close failure
+Traceback (most recent call last):
+  File "C:\Users\lenovo\bb-team-info-by-ingredient\.venv\Lib\site-packages\twisted\internet\defer.py", line 1088, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\bb-team-info-by-ingredient\food\food\pipelines.py", line 203, in close_spider
+    self.sheet.calculate_dimensions.group(start_letter, end_letter, outline_level=1, hidden=False)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Worksheet' object has no attribute 'calculate_dimensions'. Did you mean: 'calculate_dimension'?
+2025-07-14 19:50:16 [food.spiders.ingredients] WARNING: Crawling completed in 0:01:46.656078
+2025-07-14 19:55:44 [food.spiders.ingredients] WARNING: Crawling completed in 0:01:11.648802
+2025-07-14 19:58:58 [scrapy.core.engine] ERROR: Scraper close failure
+Traceback (most recent call last):
+  File "C:\Users\lenovo\bb-team-info-by-ingredient\.venv\Lib\site-packages\twisted\internet\defer.py", line 1088, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\bb-team-info-by-ingredient\food\food\pipelines.py", line 205, in close_spider
+    self.wb.save("foods.xlsx")
+  File "C:\Users\lenovo\bb-team-info-by-ingredient\.venv\Lib\site-packages\openpyxl\workbook\workbook.py", line 386, in save
+    save_workbook(self, filename)
+  File "C:\Users\lenovo\bb-team-info-by-ingredient\.venv\Lib\site-packages\openpyxl\writer\excel.py", line 291, in save_workbook
+    archive = ZipFile(filename, 'w', ZIP_DEFLATED, allowZip64=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Programs\Python\Python312\Lib\zipfile\__init__.py", line 1336, in __init__
+    self.fp = io.open(file, filemode)
+              ^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'foods.xlsx'
+2025-07-14 19:58:58 [food.spiders.ingredients] WARNING: Crawling completed in 0:01:01.750296
+2025-07-14 20:00:43 [food.spiders.ingredients] WARNING: Crawling completed in 0:01:03.587270
