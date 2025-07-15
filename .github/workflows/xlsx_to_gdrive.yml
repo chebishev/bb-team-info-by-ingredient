@@ -2,7 +2,7 @@ name: Upload to Google Drive
 
 on:
   push:
-    branches: [main]
+    branches: [master]
 
 jobs:
   upload:
