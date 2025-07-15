@@ -22,4 +22,4 @@ jobs:
 
       - name: Upload file to Google Drive
         run: |
-          rclone copyto ./food/food/spiders/foods.xlsx gdrive:foods.xlsx
+          rclone copyto ./food/food/spiders/foods.xlsx foods:foods.xlsx
