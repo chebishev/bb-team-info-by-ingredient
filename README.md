@@ -1,4 +1,4 @@
-[![Upload to Google Drive](https://github.com/chebishev/bb-team-info-by-ingredient/actions/workflows/xlsx_to_gdrive.yaml/badge.svg)](https://github.com/chebishev/bb-team-info-by-ingredient/actions/workflows/xlsx_to_gdrive.yaml)
+[![Upload to Google Drive](https://github.com/chebishev/bb-team-info-by-ingredient/actions/workflows/xlsx_to_gdrive.yml/badge.svg)](https://github.com/chebishev/bb-team-info-by-ingredient/actions/workflows/xlsx_to_gdrive.yml)
 
 🥦 Nutrition Scraper - bb-team.org
 This project is a Scrapy-based web scraper that extracts detailed nutritional information from bb-team.org — a popular Bulgarian website for nutrition and fitness.
