@@ -7,3 +7,4 @@ class FoodItem(scrapy.Item):
     food_group = scrapy.Field()
     nutrients = scrapy.Field()
     url = scrapy.Field()
+    food_group_url = scrapy.Field()

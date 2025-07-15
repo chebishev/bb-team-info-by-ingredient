@@ -20,7 +20,7 @@ class IngredientsSpider(SitemapSpider):
         },
         "LOG_LEVEL": "WARNING",
         "FEEDS": {f"{name}.csv": {"format": "csv", "overwrite": True}},
-        "FEED_EXPORT_FIELDS": ["name", "description", "food_group", "nutrients", "url"],
+        "FEED_EXPORT_FIELDS": ["name", "description", "food_group", "url","nutrients"],
         "LOG_FILE": f"log_{name}.txt",
     }
 
@@ -33,7 +33,9 @@ class IngredientsSpider(SitemapSpider):
 
         name = response.css("h1::text").get().strip()
         description = response.css("h1+p::text").get().strip()
-        food_group = response.css("nav > ol > li:last-child a::text").get().strip()
+        food_group = response.css("nav > ol > li:last-child a")
+        food_group_name = food_group.css("::text").get().strip()
+        food_group_url = food_group.css("a").attrib.get("href")
         nutritions_per_100_grams = response.css("p.font-semibold+div > div")
         serving_size = "100 г съдържат:"
         hundred_grams_nutrients = ("Калории", "Протеин", "Въглехидрати", "Мазнини")
@@ -83,9 +85,10 @@ class IngredientsSpider(SitemapSpider):
         food_item = FoodItem(
             name=name,
             description=description,
-            food_group=food_group.strip(),
+            food_group=food_group_name,
             nutrients=nutrients,
             url=url,
+            food_group_url=food_group_url
         )
 
         yield food_item
