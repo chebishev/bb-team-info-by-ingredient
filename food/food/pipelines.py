@@ -132,7 +132,7 @@ class XSLXPipeline:
         self.sheet.append(self.headers)
 
         # Define column category groupings (1-based index)
-        self.category_ranges = {
+        self.category_ranges = {|
             "100 грама съдържат": (4, 7),
             "Въглехидрати": (8, 16),
             "Витамини": (17, 31),
@@ -174,7 +174,8 @@ class XSLXPipeline:
         return result
 
     def close_spider(self, spider):
-        self.sheet.freeze_panes = "A3"
+        # Always shoow first 3 columns and first two rows
+        self.sheet.freeze_panes = "D3"
 
         for column_cells in self.sheet.columns:
             # Skip merged cells and find a real cell to get the column letter
