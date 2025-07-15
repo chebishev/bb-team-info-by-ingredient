@@ -1,5 +1,6 @@
 import openpyxl
 from openpyxl.styles import Alignment, Font
+from openpyxl.utils import get_column_letter
 
 
 class FoodPipeline:
@@ -211,7 +212,11 @@ class XSLXPipeline:
                 start_letter, end_letter, outline_level=1, hidden=False
             )
 
-        # Enable auto-filter for the header row (row 2)
-        self.sheet.auto_filter.ref = self.sheet.dimensions
+        # Gets the last column as number
+        num_columns = len(self.headers)
+        # Gets the last column letter
+        last_column = get_column_letter(num_columns)
+        # Auto filter from A2 to the last column row 2
+        self.sheet.auto_filter.ref = f"A2:{last_column}2"
 
         self.wb.save("foods.xlsx")
