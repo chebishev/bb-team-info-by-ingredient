@@ -162,7 +162,20 @@ class XSLXPipeline:
         ]
         for header in self.headers[3:]:
             row.append(nutrient_map.get(header, ""))
+
         self.sheet.append(row)
+        row_index = self.sheet.max_row
+
+        # Apply hyperlink to the "Име" column (column A = index 1)
+        name_cell = self.sheet.cell(row=row_index, column=1)
+        name_cell.hyperlink = item.get("url", "")
+        name_cell.font = Font(color="0563C1", underline="single")
+
+        # Apply hyperlink to "Хранителна група" column (column C = index 3)
+        group_cell = self.sheet.cell(row=row_index, column=3)
+        group_cell.hyperlink = item.get("food_group_url", "")
+        group_cell.font = Font(color="0563C1", underline="single")
+
         return item
 
     @staticmethod

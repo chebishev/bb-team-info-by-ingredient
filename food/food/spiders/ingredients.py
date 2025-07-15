@@ -20,7 +20,7 @@ class IngredientsSpider(SitemapSpider):
         },
         "LOG_LEVEL": "WARNING",
         "FEEDS": {f"{name}.csv": {"format": "csv", "overwrite": True}},
-        "FEED_EXPORT_FIELDS": ["name", "description", "food_group", "url","nutrients"],
+        "FEED_EXPORT_FIELDS": ["name", "description", "food_group", "url", "nutrients"],
         "LOG_FILE": f"log_{name}.txt",
     }
 
@@ -88,7 +88,7 @@ class IngredientsSpider(SitemapSpider):
             food_group=food_group_name,
             nutrients=nutrients,
             url=url,
-            food_group_url=food_group_url
+            food_group_url=food_group_url,
         )
 
         yield food_item
