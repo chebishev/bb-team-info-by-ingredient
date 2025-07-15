@@ -210,4 +210,8 @@ class XSLXPipeline:
             self.sheet.column_dimensions.group(
                 start_letter, end_letter, outline_level=1, hidden=False
             )
+
+        # Enable auto-filter for the header row (row 2)
+        self.sheet.auto_filter.ref = self.sheet.dimensions
+
         self.wb.save("foods.xlsx")
