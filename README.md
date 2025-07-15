@@ -52,8 +52,10 @@ nutrition_scraper/
    ├── pipelines.py
    ├── settings.py
    └── spiders/       
-        └── ingredients.py
-        └── foods.xlsx
+        └── foods.xlsx            # the file that is uploaded automatically to Google Drive
+        └── ingredients.csv       # scraped data that contains product name, description, food_group, url and nutrients
+        └── ingredients.py        # main spider
+        └── log_ingredients.txt   # mostly for time logging
 ```
 
 
