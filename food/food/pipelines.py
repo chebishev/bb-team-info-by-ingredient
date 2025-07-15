@@ -165,16 +165,8 @@ class XSLXPipeline:
 
         self.sheet.append(row)
         row_index = self.sheet.max_row
-
-        # Apply hyperlink to the "Име" column (column A = index 1)
-        name_cell = self.sheet.cell(row=row_index, column=1)
-        name_cell.hyperlink = item.get("url", "")
-        name_cell.font = Font(color="0563C1", underline="single")
-
-        # Apply hyperlink to "Хранителна група" column (column C = index 3)
-        group_cell = self.sheet.cell(row=row_index, column=3)
-        group_cell.hyperlink = item.get("food_group_url", "")
-        group_cell.font = Font(color="0563C1", underline="single")
+        self.set_hyperlink(row_index, 1, item.get("url", ""))  # Column A: Name
+        self.set_hyperlink(row_index, 3, item.get("food_group_url", ""))  # Column C: Food Group
 
         return item
 
@@ -185,6 +177,12 @@ class XSLXPipeline:
             index, remainder = divmod(index - 1, 26)
             result = chr(65 + remainder) + result
         return result
+
+    def set_hyperlink(self, row, col, url):
+        cell = self.sheet.cell(row=row, column=col)
+        if url:
+            cell.hyperlink = url
+            cell.font = Font(color="0563C1", underline="single")
 
     def close_spider(self, spider):
         # Always shoow first 2 columns and first two rows
