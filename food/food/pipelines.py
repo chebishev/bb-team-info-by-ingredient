@@ -166,7 +166,9 @@ class XSLXPipeline:
         self.sheet.append(row)
         row_index = self.sheet.max_row
         self.set_hyperlink(row_index, 1, item.get("url", ""))  # Column A: Name
-        self.set_hyperlink(row_index, 3, item.get("food_group_url", ""))  # Column C: Food Group
+        self.set_hyperlink(
+            row_index, 3, item.get("food_group_url", "")
+        )  # Column C: Food Group
 
         return item
 
