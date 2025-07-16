@@ -1,10 +1,10 @@
 [![Upload to Google Drive](https://github.com/chebishev/bb-team-info-by-ingredient/actions/workflows/xlsx_to_gdrive.yml/badge.svg)](https://github.com/chebishev/bb-team-info-by-ingredient/actions/workflows/xlsx_to_gdrive.yml)
 
-🥦 Nutrition Scraper - bb-team.org
+🥦 Nutrition Scraper - [bb-team.org](https://www.bb-team.org/)
 
 This project is a Scrapy-based web scraper that extracts detailed nutritional information from bb-team.org — a popular Bulgarian website for nutrition and fitness.
 
-The scraper collects data on various food products and exports the results into a well-structured Excel file (foods.xlsx). The Excel file contains categorized nutrient information per 100 grams + almost 70 other nutrients, along with basic product details.
+The scraper collects data on various food products and exports the results into a well-structured Excel file ([foods.xlsx](https://github.com/chebishev/bb-team-info-by-ingredient/blob/master/food/food/spiders/foods.xlsx)). The Excel file contains categorized nutrient information per 100 grams + almost 70 other nutrients, along with basic product details.
 
 📋 Features
 
@@ -67,9 +67,9 @@ nutrition_scraper/
 📌 Notes
 This project is for educational and research purposes.
 
-Check out Read Only Version here(No filters for Viewers): [Google Drive](https://docs.google.com/spreadsheets/d/1y_o9Es5Aajau9ggKZ4CgEE1zYTVhn5Sy/edit?usp=sharing&ouid=115367196449881872914&rtpof=true&sd=true) \
-or just download the latest foods.xlsx from the repo \
-The data source is bb-team.org, and all rights to the content belong to them. \
+Check out Read Only Version (No filters for Viewers): [Google Drive](https://docs.google.com/spreadsheets/d/1y_o9Es5Aajau9ggKZ4CgEE1zYTVhn5Sy/edit?usp=sharing&ouid=115367196449881872914&rtpof=true&sd=true) \
+or just download the latest [foods.xlsx](https://github.com/chebishev/bb-team-info-by-ingredient/blob/master/food/food/spiders/foods.xlsx) from the repo \
+The data source is [bb-team.org](https://www.bb-team.org/), and all rights to the content belong to them. \
 You can always scrape it or modify it for yourself: \
 ```bash
 python -m venv .venv
