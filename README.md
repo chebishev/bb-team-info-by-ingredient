@@ -1,14 +1,16 @@
 [![Upload to Google Drive](https://github.com/chebishev/bb-team-info-by-ingredient/actions/workflows/xlsx_to_gdrive.yml/badge.svg)](https://github.com/chebishev/bb-team-info-by-ingredient/actions/workflows/xlsx_to_gdrive.yml)
 
 🥦 Nutrition Scraper - bb-team.org
+
 This project is a Scrapy-based web scraper that extracts detailed nutritional information from bb-team.org — a popular Bulgarian website for nutrition and fitness.
 
 The scraper collects data on various food products and exports the results into a well-structured Excel file (foods.xlsx). The Excel file contains categorized nutrient information per 100 grams + almost 70 other nutrients, along with basic product details.
 
 📋 Features
+
 Scrapes nutrition data for a wide range of food items.
 
-## Extracts and organizes nutrients into categories:
+### Extracts and organizes nutrients into categories:
 100 грама съдържат (Nutrients per 100 grams)
 
 Въглехидрати (Carbohydrates)
@@ -25,7 +27,7 @@ Scrapes nutrition data for a wide range of food items.
 
 Още (Others)
 
-## Also captures:
+### Also captures:
 
 Product name + link to the product
 
@@ -36,6 +38,7 @@ Food group + link to the food group
 Outputs the data in an Excel spreadsheet (foods.xlsx)
 
 🛠️ Technologies Used
+
 Python 3
 
 Scrapy – for web scraping
