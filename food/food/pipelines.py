@@ -4,7 +4,21 @@ from openpyxl.utils import get_column_letter
 
 
 class FoodPipeline:
-    def process_item(self, item, spider):
+    def process_item(self, item, spider) -> dict:
+        """
+        Processes a scraped item by cleaning and structuring its nutrients data.
+
+        Iterates over the nutrients list and tries to extract the quantity and unit
+        from the raw quantity string. Stores cleaned nutrient info in a new
+        list and assigns it back to the item.
+
+        :param item: The scraped item containing food data.
+        :type item: dict
+        :param spider: The spider instance that scraped the item.
+        :type spider: scrapy.Spider
+        :return: The processed item.
+        :rtype: dict
+        """
         nutrients = item.get("nutrients", [])
         processed_nutrients = []
 
@@ -45,7 +59,13 @@ class FoodPipeline:
 
 
 class XSLXPipeline:
-    def __init__(self):
+    def __init__(self) -> None:
+        """
+        Initialize the XLSX pipeline.
+
+        Sets up an openpyxl workbook and sheet, defines the header row, and sets up
+        column category groupings.
+        """
         self.wb = openpyxl.Workbook()
         self.sheet = self.wb.active
 
@@ -154,7 +174,22 @@ class XSLXPipeline:
             cell.font = Font(bold=True)
             cell.alignment = Alignment(horizontal="center", vertical="center")
 
-    def process_item(self, item, spider):
+    def process_item(self, item, spider) -> dict:
+        """
+        Processes a scraped item and appends its data to the Excel sheet.
+
+        This method extracts relevant information from the item, such as name, description,
+        food group, and nutrients. It maps the nutrient names to their quantities and constructs
+        a row to be appended to the Excel sheet. Hyperlinks are set for the name and food group
+        columns. The updated item is then returned.
+
+        :param item: The scraped item containing food data.
+        :type item: dict
+        :param spider: The spider instance that scraped the item.
+        :type spider: scrapy.Spider
+        :return: The processed item.
+        :rtype: dict
+        """
         nutrient_map = {n["name"]: n["quantity"] for n in item.get("nutrients", [])}
         row = [
             item.get("name", ""),
@@ -174,21 +209,35 @@ class XSLXPipeline:
         return item
 
     @staticmethod
-    def index_to_column_letter(index):
+    def index_to_column_letter(index) -> str:
+        """
+        Convert a 1-based column index to its corresponding Excel column letter.
+
+        :param int index: 1-based index of the column
+        :return: The corresponding Excel column letter
+        :rtype: str
+        """
         result = ""
         while index > 0:
             index, remainder = divmod(index - 1, 26)
             result = chr(65 + remainder) + result
         return result
 
-    def set_hyperlink(self, row, col, url):
+    def set_hyperlink(self, row, col, url) -> None:
+        """
+        Sets a hyperlink on the cell at the given row and column
+
+        :param int row: Row index of the cell
+        :param int col: Column index of the cell
+        :param str url: URL to link to
+        """
         cell = self.sheet.cell(row=row, column=col)
         if url:
             cell.hyperlink = url
             cell.font = Font(color="0563C1", underline="single")
 
     def close_spider(self, spider):
-        # Always shoow first 2 columns and first two rows
+        # Always show first 2 columns and first two rows
         self.sheet.freeze_panes = "C3"
 
         for column_cells in self.sheet.columns:

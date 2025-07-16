@@ -33,12 +33,14 @@ class IngredientsSpider(SitemapSpider):
 
         name = response.css("h1::text").get().strip()
         description = response.css("h1+p::text").get().strip()
+        # avoid code repetition by getting the element once
         food_group = response.css("nav > ol > li:last-child a")
         food_group_name = food_group.css("::text").get().strip()
         food_group_url = food_group.css("a").attrib.get("href")
+
         nutritions_per_100_grams = response.css("p.font-semibold+div > div")
-        serving_size = "100 г съдържат:"
         hundred_grams_nutrients = ("Калории", "Протеин", "Въглехидрати", "Мазнини")
+
         parsed_nutritions = []
         for block in nutritions_per_100_grams:
             number = block.css("span::text").re_first(r"[\d.,]+")
@@ -52,17 +54,18 @@ class IngredientsSpider(SitemapSpider):
             return
 
         nutrients = []
+        # append the nutrients per 100g
         for index, nutrition in enumerate(parsed_nutritions):
             nutrients.append(
                 {
-                    "group": serving_size,
+                    "group": "100 г съдържат:",
                     "name": hundred_grams_nutrients[index],
                     "raw_quantity": (
                         f"{nutrition} к" if index == 0 else f"{nutrition} г"
                     ),
                 }
             )
-
+        # append the rest of the nutrients
         for table in tables:
             summary = table.attrib.get("summary", "").strip()
             for row in table.css("tr"):
@@ -77,7 +80,7 @@ class IngredientsSpider(SitemapSpider):
 
                 nutrients.append(
                     {
-                        "group": summary,  # Optional: use this if you want to group
+                        "group": summary,
                         "name": nutrient_name.strip(),
                         "raw_quantity": quantity_text.strip(),
                     }
