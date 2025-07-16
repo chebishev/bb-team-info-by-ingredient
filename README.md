@@ -8,8 +8,8 @@ The scraper collects data on various food products and exports the results into 
 📋 Features
 Scrapes nutrition data for a wide range of food items.
 
-Extracts and organizes nutrients into categories:
-100 грама съдържат
+## Extracts and organizes nutrients into categories:
+100 грама съдържат (Nutrients per 100 grams)
 
 Въглехидрати (Carbohydrates)
 
@@ -25,7 +25,7 @@ Extracts and organizes nutrients into categories:
 
 Още (Others)
 
-Also captures:
+## Also captures:
 
 Product name + link to the product
 
@@ -41,6 +41,8 @@ Python 3
 Scrapy – for web scraping
 
 openpyxl – for writing Excel files
+
+rclone - for automated uploading to Google Drive
 
 📂 Project Structure
 ```bash
@@ -63,6 +65,17 @@ nutrition_scraper/
 This project is for educational and research purposes.
 
 The data source is bb-team.org, and all rights to the content belong to them.
+
+The link is Read Only and the filters don't work that way, so if you want the full functionallity, you can setup the project and run the scraper:
+```bash
+python -m venv .venv
+.\.venv\Scripts\activate
+# for Linux -> source .venv\bin\activate
+pip install -r requirements.txt
+cd foods/foods/spiders
+scrapy crawl ingredients
+```
+You can always download the excel file from the repo. It's always the latest
 
 📄 License
 MIT License
