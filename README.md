@@ -67,9 +67,10 @@ nutrition_scraper/
 📌 Notes
 This project is for educational and research purposes.
 
-The data source is bb-team.org, and all rights to the content belong to them.
-
-The link is Read Only and the filters don't work that way, so if you want the full functionallity, you can setup the project and run the scraper:
+Check out Read Only Version here(No filters for Viewers): [Google Drive](https://docs.google.com/spreadsheets/d/1y_o9Es5Aajau9ggKZ4CgEE1zYTVhn5Sy/edit?usp=sharing&ouid=115367196449881872914&rtpof=true&sd=true) /
+or just download the latest foods.xlsx from the repo /
+The data source is bb-team.org, and all rights to the content belong to them. /
+You can always scrape it or modify it for yourself: /
 ```bash
 python -m venv .venv
 .\.venv\Scripts\activate
@@ -78,7 +79,6 @@ pip install -r requirements.txt
 cd foods/foods/spiders
 scrapy crawl ingredients
 ```
-You can always download the excel file from the repo. It's always the latest
 
 📄 License
 MIT License
